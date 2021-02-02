@@ -2,3 +2,9 @@ name: WhiteChest
 version: @version@
 main: com.chandlervanscoy.whitechest.WhiteChest
 api-version: 1.16
+
+commands:
+  whitechest:
+    description: Control your chest whitelist
+    usage: /whitelist
+    permission: whitechest.whitelistcontrol

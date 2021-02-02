@@ -1,5 +1,7 @@
 package com.chandlervanscoy.whitechest;
 
+import com.chandlervanscoy.whitechest.commands.WhiteListCommand;
+import com.chandlervanscoy.whitechest.commands.WhiteListTabCompletion;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.Configuration;
 import org.bukkit.plugin.PluginLogger;
@@ -29,6 +31,8 @@ public final class WhiteChest extends JavaPlugin {
         createWhiteListTable();
 
         getServer().getPluginManager().registerEvents(new ChestEventHandler(), this);
+        this.getCommand("whitechest").setExecutor(new WhiteListCommand());
+        this.getCommand("whitechest").setTabCompleter(new WhiteListTabCompletion());
     }
 
     @Override
