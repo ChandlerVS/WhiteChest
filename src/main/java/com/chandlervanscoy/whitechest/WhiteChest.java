@@ -33,7 +33,9 @@ public final class WhiteChest extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        // Plugin shutdown logic
+        try {
+            connection.close();
+        } catch (SQLException ignored) {}
     }
 
     private void createWhiteListTable() {
