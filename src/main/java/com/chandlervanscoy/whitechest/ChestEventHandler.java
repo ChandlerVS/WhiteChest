@@ -91,7 +91,7 @@ public class ChestEventHandler implements Listener {
         String deathType = WhiteChest.config.getString("deathType");
 
         if(deathType == null) {
-            event.getPlayer().damage(100);
+            event.getPlayer().damage(200);
             return;
         }
 
@@ -101,7 +101,7 @@ public class ChestEventHandler implements Listener {
                 break;
             case "instant":
             default:
-                event.getPlayer().damage(100);
+                event.getPlayer().damage(200);
                 break;
         }
 
