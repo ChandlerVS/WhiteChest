@@ -73,6 +73,6 @@ public class ChestEventHandler implements Listener {
         if(chestOwner.toString().equals(event.getPlayer().getUniqueId().toString())) return;
 
         event.getPlayer().sendMessage("You do not own this chest! As such, prepare to die.");
-        event.getPlayer().teleport(new Location(event.getPlayer().getWorld(), event.getPlayer().getLocation().getX(), 255, event.getPlayer().getLocation().getY()));
+        event.getPlayer().teleport(new Location(event.getPlayer().getWorld(), event.getPlayer().getLocation().getX(), 255, event.getPlayer().getLocation().getZ()));
     }
 }
