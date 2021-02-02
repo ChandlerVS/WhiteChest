@@ -1,5 +1,7 @@
 package com.chandlervanscoy.whitechest;
 
+import com.chandlervanscoy.whitechest.commands.WhiteListCommand;
+import com.chandlervanscoy.whitechest.commands.WhiteListTabCompletion;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.Configuration;
 import org.bukkit.plugin.PluginLogger;
@@ -15,6 +17,7 @@ public final class WhiteChest extends JavaPlugin {
     public void onEnable() {
         config = getConfig();
         config.addDefault("debug", false);
+        config.addDefault("deathType", "instant");
         config.options().copyDefaults(true);
         saveConfig();
 
@@ -29,11 +32,15 @@ public final class WhiteChest extends JavaPlugin {
         createWhiteListTable();
 
         getServer().getPluginManager().registerEvents(new ChestEventHandler(), this);
+        this.getCommand("whitechest").setExecutor(new WhiteListCommand());
+        this.getCommand("whitechest").setTabCompleter(new WhiteListTabCompletion());
     }
 
     @Override
     public void onDisable() {
-        // Plugin shutdown logic
+        try {
+            connection.close();
+        } catch (SQLException ignored) {}
     }
 
     private void createWhiteListTable() {

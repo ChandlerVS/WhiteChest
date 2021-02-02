@@ -72,7 +72,38 @@ public class ChestEventHandler implements Listener {
         if(chestOwner == null) return;
         if(chestOwner.toString().equals(event.getPlayer().getUniqueId().toString())) return;
 
+        boolean foundPlayer = false;
+        try {
+            PreparedStatement statement = WhiteChest.connection.prepareStatement("SELECT * FROM whitelist WHERE owner = ?");
+            statement.setString(1, chestOwner.toString());
+
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                if(event.getPlayer().getUniqueId().toString().equals(rs.getString("player"))) foundPlayer = true;
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        if(foundPlayer) return;
+
         event.getPlayer().sendMessage("You do not own this chest! As such, prepare to die.");
-        event.getPlayer().teleport(new Location(event.getPlayer().getWorld(), event.getPlayer().getLocation().getX(), 255, event.getPlayer().getLocation().getY()));
+
+        String deathType = WhiteChest.config.getString("deathType");
+
+        if(deathType == null) {
+            event.getPlayer().damage(200);
+            return;
+        }
+
+        switch (deathType) {
+            case "falldamage":
+                event.getPlayer().teleport(new Location(event.getPlayer().getWorld(), event.getPlayer().getLocation().getX(), 255, event.getPlayer().getLocation().getZ()));
+                break;
+            case "instant":
+            default:
+                event.getPlayer().damage(200);
+                break;
+        }
+
     }
 }
