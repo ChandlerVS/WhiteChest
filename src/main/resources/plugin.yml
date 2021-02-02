@@ -1,0 +1,4 @@
+name: WhiteChest
+version: @version@
+main: com.chandlervanscoy.whitechest.WhiteChest
+api-version: 1.16
