@@ -17,6 +17,7 @@ public final class WhiteChest extends JavaPlugin {
     public void onEnable() {
         config = getConfig();
         config.addDefault("debug", false);
+        config.addDefault("deathType", "instant");
         config.options().copyDefaults(true);
         saveConfig();
 
