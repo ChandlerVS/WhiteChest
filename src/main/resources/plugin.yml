@@ -8,3 +8,7 @@ commands:
     description: Control your chest whitelist
     usage: /whitelist
     permission: whitechest.whitelistcontrol
+
+permissions:
+  whitechest.whitelistcontrol:
+    description: Allows whitelisting capability
