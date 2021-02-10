@@ -3,21 +3,35 @@ package com.chandlervanscoy.whitechest;
 import com.chandlervanscoy.whitechest.commands.WhiteListCommand;
 import com.chandlervanscoy.whitechest.commands.WhiteListTabCompletion;
 import org.bukkit.Bukkit;
+import org.bukkit.NamespacedKey;
 import org.bukkit.configuration.Configuration;
-import org.bukkit.plugin.PluginLogger;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.sql.*;
+import java.util.ArrayList;
 
 public final class WhiteChest extends JavaPlugin {
     public static Configuration config;
     public static Connection connection;
 
+    public static WhiteChest getPlugin() {
+        return WhiteChest.getPlugin(WhiteChest.class);
+    }
+
+    public static String getNamespaceKeyString(NamespacedKey namespacedKey) {
+        return namespacedKey.getNamespace() + ":" + namespacedKey.getKey();
+    }
+
     @Override
     public void onEnable() {
+        ArrayList<String> defaultBlockList = new ArrayList<String>();
+        defaultBlockList.add("minecraft:chest");
+
         config = getConfig();
         config.addDefault("debug", false);
         config.addDefault("deathType", "instant");
+        config.addDefault("blockList", defaultBlockList);
+        config.addDefault("actionOnBlockBreak", false);
         config.options().copyDefaults(true);
         saveConfig();
 
