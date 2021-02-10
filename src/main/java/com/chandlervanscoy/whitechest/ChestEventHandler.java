@@ -65,7 +65,7 @@ public class ChestEventHandler implements Listener {
     @EventHandler
     public void handleChestInteraction(PlayerInteractEvent event) {
         if(!event.hasBlock()) return;
-        if(!event.getAction().equals(Action.RIGHT_CLICK_BLOCK)) return;
+        if(!WhiteChest.config.getBoolean("actionOnBlockBreak") && event.getAction().equals(Action.RIGHT_CLICK_BLOCK)) return;
 
         String blockKey = WhiteChest.getNamespaceKeyString(event.getClickedBlock().getType().getKey());
         List<String> blockTypes = WhiteChest.config.getStringList("blockList");

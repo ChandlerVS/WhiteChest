@@ -31,6 +31,7 @@ public final class WhiteChest extends JavaPlugin {
         config.addDefault("debug", false);
         config.addDefault("deathType", "instant");
         config.addDefault("blockList", defaultBlockList);
+        config.addDefault("actionOnBlockBreak", false);
         config.options().copyDefaults(true);
         saveConfig();
 
