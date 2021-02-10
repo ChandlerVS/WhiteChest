@@ -1,5 +1,6 @@
 package com.chandlervanscoy.whitechest;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -11,12 +12,26 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.UUID;
 
 public class ChestEventHandler implements Listener {
     @EventHandler
     public void handleBlockPlace(BlockPlaceEvent event) {
-        if(!event.getBlockPlaced().getType().getKey().getKey().equals("chest")) return;
+        if(WhiteChest.config.getBoolean("debug")) {
+            event.getPlayer().sendMessage("Block Namespaced Key: " + WhiteChest.getNamespaceKeyString(event.getBlockPlaced().getType().getKey()));
+        }
+
+        String blockKey = WhiteChest.getNamespaceKeyString(event.getBlockPlaced().getType().getKey());
+        List<String> blockTypes = WhiteChest.config.getStringList("blockList");
+
+
+        if(WhiteChest.config.getBoolean("debug")) {
+            WhiteChest.getPlugin().getLogger().info("Block Key: " + blockKey);
+            WhiteChest.getPlugin().getLogger().info("Block List: " + String.join(", ", blockTypes));
+        }
+
+        if(!blockTypes.contains(blockKey)) return;
 
         try {
             PreparedStatement statement = WhiteChest.connection.prepareStatement("INSERT INTO chests (player, locationX, locationY, locationZ) VALUES (?, ?, ?, ?)");
@@ -51,7 +66,10 @@ public class ChestEventHandler implements Listener {
     public void handleChestInteraction(PlayerInteractEvent event) {
         if(!event.hasBlock()) return;
         if(!event.getAction().equals(Action.RIGHT_CLICK_BLOCK)) return;
-        if(!event.getClickedBlock().getType().getKey().getKey().equals("chest")) return;
+
+        String blockKey = WhiteChest.getNamespaceKeyString(event.getClickedBlock().getType().getKey());
+        List<String> blockTypes = WhiteChest.config.getStringList("blockList");
+        if(!blockTypes.contains(blockKey)) return;
 
         UUID chestOwner = null;
         try {
